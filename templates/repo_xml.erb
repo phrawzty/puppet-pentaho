@@ -1,0 +1,2 @@
+<% require 'yaml'; require 'xmlsimple' -%>
+<%= XmlSimple.xml_out(config, {'NoAttr' => true, 'RootName' => nil}) %>

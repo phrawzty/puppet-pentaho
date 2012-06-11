@@ -1,0 +1,18 @@
+<%
+require 'yaml'
+require 'xmlsimple'
+
+yaml_xml_out = XmlSimple.xml_out(config, {'NoAttr' => true, 'RootName' => nil})
+
+root = config.keys[0]
+
+if snippet then
+    f_snippet = File.open(File.join(File.dirname(Puppet.settings[:config]), "#{snippet_src}/#{snippet}"))
+    snippet_xml_in = XmlSimple.xml_in(f_snippet, {'KeepRoot' => false})
+    yaml_xml_in = XmlSimple.xml_in(yaml_xml_out)
+    merge_xml_in = yaml_xml_in.merge(snippet_xml_in)
+    merge_xml_out = XmlSimple.xml_out(merge_xml_in, {'RootName' => root}) -%>
+<%= merge_xml_out %>
+<% else -%>
+<%= yaml_xml_out %>
+<% end -%>
